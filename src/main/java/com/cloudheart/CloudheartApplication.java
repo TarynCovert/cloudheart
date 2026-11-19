@@ -1,13 +1,13 @@
-package CloudPulse;
+package com.cloudheart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CloudpulseApplication {
+public class CloudheartApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CloudpulseApplication.class, args);
+		SpringApplication.run(CloudheartApplication.class, args);
 	}
 
 }
