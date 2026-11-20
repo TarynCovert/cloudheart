@@ -1,15 +1,16 @@
 
 package com.cloudheart.repository;
 
-import com.cloudheart.model.Heartbeat;
+import com.cloudheart.model.HeartbeatObservation;
+
 import java.util.Optional;
 
 public interface HeartbeatRepository {
 
-    void saveLatest(Heartbeat heartbeat);
+  void saveLatest(HeartbeatObservation observation);
 
-    Optional<Heartbeat> findLatest(
-        String serviceId,
-        String instanceId
-    );
+  Optional<HeartbeatObservation> findLatest(
+    String serviceId,
+    String instanceId
+  );
 }

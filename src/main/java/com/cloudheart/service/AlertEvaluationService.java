@@ -32,7 +32,6 @@ public class AlertEvaluationService {
     List<RuleViolation> results = new ArrayList<>();
     List<AlertRule> ruleList = ruleRepository.findByServiceId(metric.serviceId());
 
-
     for (AlertRule rule : ruleList) {
       if (!rule.enabled()) {
         continue;
@@ -57,7 +56,7 @@ public class AlertEvaluationService {
             metric.timestamp()
           );
 
-        results.add (violation);
+        results.add(violation);
       }
     }
 

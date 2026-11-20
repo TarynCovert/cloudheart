@@ -1,10 +1,9 @@
 
 package com.cloudheart.repository;
 
-import com.cloudheart.model.Heartbeat;
+import com.cloudheart.model.HeartbeatObservation;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,21 +16,22 @@ public class InMemoryHeartbeatRepository
         String instanceId
     ) {}
 
-    private final Map<InstanceKey, Heartbeat> heartbeats =
-            new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<InstanceKey, HeartbeatObservation>
+            observations = new ConcurrentHashMap<>();
 
     @Override
-    public void saveLatest(Heartbeat heartbeat) {
+    public void saveLatest(HeartbeatObservation observation) {
 
         InstanceKey key = new InstanceKey(
-            heartbeat.serviceId(),
-            heartbeat.instanceId()
+            observation.heartbeat().serviceId(),
+            observation.heartbeat().instanceId()
         );
 
-        heartbeats.compute(key, (k, existing) -> {
+        observations.compute(key, (k, existing) -> {
             if (existing == null ||
-                    heartbeat.timestamp().isAfter(existing.timestamp())) {
-                return heartbeat;
+                    observation.receivedAt()
+                        .isAfter(existing.receivedAt())) {
+                return observation;
             }
 
             return existing;
@@ -39,15 +39,14 @@ public class InMemoryHeartbeatRepository
     }
 
     @Override
-    public Optional<Heartbeat> findLatest(
+    public Optional<HeartbeatObservation> findLatest(
             String serviceId,
             String instanceId) {
 
-        InstanceKey key = new InstanceKey(
-            serviceId,
-            instanceId
+        return Optional.ofNullable(
+            observations.get(
+                new InstanceKey(serviceId, instanceId)
+            )
         );
-
-        return Optional.ofNullable(heartbeats.get(key));
     }
 }
