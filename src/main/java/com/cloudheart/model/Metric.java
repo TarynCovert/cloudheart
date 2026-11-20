@@ -1,8 +1,12 @@
 package com.cloudheart.model;
 
+import java.time.Instant;
+
 public record Metric(
-    String service,
-    double cpuUsage,
-    double memoryUsage,
-    long responseTime
+    String serviceId,
+    String instanceId,
+    String name,
+    double value,
+    String unit,
+    Instant timestamp
 ) {}
